@@ -26,7 +26,7 @@ public class DoctorController extends AbstractRestHandler {
     public Doctor create(@RequestBody Doctor doctor, HttpServletRequest request, HttpServletResponse response) {
         Doctor createdDoctor;
         Doctor doctorVerified = this.doctorServices.getByAppointmentBookId(doctor.getAppointmentBook().getId());
-        if(doctorVerified.getAppointmentBook().getId() == doctor.getAppointmentBook().getId()){
+        if(doctorVerified != null){
             throw new ForbiddenException("Cannot do it dude");
         } else {
             createdDoctor = this.doctorServices.createDoctor(doctor);

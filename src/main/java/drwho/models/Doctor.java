@@ -18,6 +18,9 @@ public class Doctor {
     private String cpf;
 
     @NotNull
+    private String crm;
+
+    @NotNull
     private String email;
 
     @NotNull
@@ -38,9 +41,10 @@ public class Doctor {
 
     public Doctor(){ }
 
-    public Doctor(String name, String cpf, String email, String phoneNumber, String address, String specialization, AppointmentBook appointmentBook, boolean isDeleted) {
+    public Doctor(String name, String cpf, String crm, String email, String phoneNumber, String address, String specialization, AppointmentBook appointmentBook, boolean isDeleted) {
         this.name = name;
         this.cpf = cpf;
+        this.crm = crm;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -50,6 +54,7 @@ public class Doctor {
     }
 
     //Getters and Setters
+
 
     public long getId() {
         return id;
@@ -123,12 +128,22 @@ public class Doctor {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+    public String getCrm() {
+        return crm;
+    }
+
+    public void setCrm(String crm) {
+        this.crm = crm;
+    }
+
     @Override
     public String toString(){
         return "DoctorServices{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cpf='" + cpf + '\'' +
+                ", crm='" + crm + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
