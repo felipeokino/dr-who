@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
+import drwho.exception.DataFormatException;
 
 @Controller
 public class AppointmentBookController extends AbstractRestHandler {
@@ -33,7 +34,9 @@ public class AppointmentBookController extends AbstractRestHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public AppointmentBook updateAppointmentBook(Long id, @RequestBody AppointmentBook appointmentBook, HttpServletRequest request, HttpServletResponse response) {
-        //checkResourceFound(this.userDao.findOne(id));
+        AppointmentBook checkAppointment = this.appointmentBookServices.getById(appointmentBook.getId());
+        checkResourceFound(checkAppointment);
+        if(checkAppointment.getId()!= appointmentBook.getId()) throw new DataFormatException("ID doesn't match!");
         AppointmentBook updatedAppointmentBook = this.appointmentBookServices.updateAppointmentBook(appointmentBook);
         return updatedAppointmentBook;
     }

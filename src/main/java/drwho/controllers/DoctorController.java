@@ -1,5 +1,6 @@
 package drwho.controllers;
 
+import drwho.exception.ForbiddenException;
 import drwho.models.Doctor;
 import drwho.services.DoctorServices;
 import org.springframework.stereotype.Controller;
@@ -7,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
-import javax.print.Doc;
+import drwho.exception.DataFormatException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
@@ -25,7 +25,12 @@ public class DoctorController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.CREATED)
     public Doctor create(@RequestBody Doctor doctor, HttpServletRequest request, HttpServletResponse response) {
         Doctor createdDoctor;
-        createdDoctor = this.doctorServices.createDoctor(doctor);
+        Doctor doctorVerified = this.doctorServices.getByAppointmentBookId(doctor.getAppointmentBook().getId());
+        if(doctorVerified.getAppointmentBook().getId() == doctor.getAppointmentBook().getId()){
+            throw new ForbiddenException("Cannot do it dude");
+        } else {
+            createdDoctor = this.doctorServices.createDoctor(doctor);
+        }
         response.setHeader("Location", request.getRequestURL().append("/").append(createdDoctor.getId()).toString());
         return createdDoctor;
     }
@@ -35,7 +40,9 @@ public class DoctorController extends AbstractRestHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Doctor updateDoctor(Long id, @RequestBody Doctor doctor, HttpServletRequest request, HttpServletResponse response) {
-        //checkResourceFound(this.userDao.findOne(id));
+        Doctor checkDoctor = this.doctorServices.getById(doctor.getId());
+        checkResourceFound(checkDoctor);
+        if(checkDoctor.getId()!= doctor.getId()) throw new DataFormatException("ID doesn't match!");
         Doctor updatedDoctor = this.doctorServices.updateDoctor(doctor);
         return updatedDoctor;
     }

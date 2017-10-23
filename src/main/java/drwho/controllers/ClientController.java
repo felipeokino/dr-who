@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import drwho.exception.DataFormatException;
 import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,9 @@ public class ClientController extends AbstractRestHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Client updateClient(Long id, @RequestBody Client client, HttpServletRequest request, HttpServletResponse response) {
-        //checkResourceFound(this.userDao.findOne(id));
+        Client checkClient = this.clientServices.getById(client.getId());
+        checkResourceFound(checkClient);
+        if(checkClient.getId()!= client.getId()) throw new DataFormatException("ID doesn't match!");
         Client updatedClient = this.clientServices.updateClient(client);
         return updatedClient;
     }

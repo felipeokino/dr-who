@@ -10,7 +10,7 @@ public class MainController {
     @RequestMapping("/v1/")
     @ResponseBody
     public String index() {
-        return "Proudly handcrafted by " +
+        return "Proudly handcrafted by dr-who" +
                 ":)";
     }
 

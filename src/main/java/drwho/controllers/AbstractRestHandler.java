@@ -2,6 +2,7 @@ package drwho.controllers;
 
 import drwho.exception.ResourceNotFoundException;
 import drwho.exception.DataFormatException;
+import drwho.exception.ForbiddenException;
 import drwho.models.RestErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,17 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
 
         return new RestErrorInfo(ex, "Algo de errado não está certo.");
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public
+    @ResponseBody
+    RestErrorInfo handleForbiddenException(ForbiddenException ex, WebRequest request, HttpServletResponse response) {
+        log.info("ForbiddenException handler:" + ex.getMessage());
+
+        return new RestErrorInfo(ex, "Já existe um cadastro com essa agenda.");
+    }
+
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)

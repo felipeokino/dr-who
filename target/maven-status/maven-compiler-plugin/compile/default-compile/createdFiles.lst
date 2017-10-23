@@ -12,6 +12,7 @@ drwho\dao\AppointmentScheduleDao.class
 drwho\services\AppointmentScheduleServices.class
 drwho\services\DoctorServices.class
 drwho\dao\ClientDao.class
+drwho\exception\ForbiddenException.class
 drwho\services\AppointmentBookServices.class
 drwho\controllers\AppointmentBookController.class
 drwho\Application.class

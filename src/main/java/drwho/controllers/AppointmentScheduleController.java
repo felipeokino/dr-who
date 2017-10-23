@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
-
+import drwho.exception.DataFormatException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,16 +37,18 @@ public class AppointmentScheduleController extends AbstractRestHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public AppointmentSchedule updateAppointmentSchedule(Long id, @RequestBody AppointmentSchedule appointmentSchedule, HttpServletRequest request, HttpServletResponse response) {
-        //checkResourceFound(this.userDao.findOne(id));
+        AppointmentSchedule checkSchedule = this.appointmentScheduleServices.getById(appointmentSchedule.getId());
+        checkResourceFound(checkSchedule);
+        if(checkSchedule.getId()!= appointmentSchedule.getId()) throw new DataFormatException("ID doesn't match!");
         AppointmentSchedule updatedAppointmentSchedule = this.appointmentScheduleServices.updateAppointmentSchedule(appointmentSchedule);
         return updatedAppointmentSchedule;
     }
 
     //retrieve all appointment schedules
-    @RequestMapping(value="/v1/appointmentSchedule/retrieveAllClients", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/v1/appointmentSchedule/retrieveAllAppointmentSchedules", method = RequestMethod.GET, produces = {"application/json"})
     public
     @ResponseBody
-    Page<AppointmentSchedule> getAllClients(Integer page, Integer size, HttpServletRequest request, HttpServletResponse response) {
+    Page<AppointmentSchedule> getAllAppointmentSchedules(Integer page, Integer size, HttpServletRequest request, HttpServletResponse response) {
         return this.appointmentScheduleServices.getAllAppointmentSchedules(page, size);
     }
 
