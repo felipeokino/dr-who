@@ -11,6 +11,8 @@ import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+//import java.sql.Time;
 import java.util.Date;
 
 @Service
@@ -97,5 +99,9 @@ public class AppointmentScheduleServices {
     public Page<AppointmentSchedule> getAppointmentSchedulesByClientIdAndDoctorSpecializationAndDateSchedule(Long clientId, String specialization, Date date, Integer page, Integer size) {
         Page pageOfAppointmentSchedulesByClientIdAndDoctorSpecializationAndDateSchedule = appointmentScheduleDao.findByDoctor_SpecializationAndClient_IdAndDateSchedule(specialization, clientId, date, new PageRequest(page,size));
         return pageOfAppointmentSchedulesByClientIdAndDoctorSpecializationAndDateSchedule;
+    }
+
+    public AppointmentSchedule getByAllParamters(Long doctorId, Date date, Date startTimeScheduled) {
+        return appointmentScheduleDao.findByDoctorIdAndDateScheduleAndStartTimeScheduled(doctorId, date, startTimeScheduled);
     }
 }

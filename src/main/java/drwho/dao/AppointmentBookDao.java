@@ -23,7 +23,7 @@ public interface AppointmentBookDao extends CrudRepository<AppointmentBook, Long
     /**
      * Return the user having the passed email or null if no user is found.
      *
-     * @param email the user email.
+     * //@param email the user email.
      */
     Page findAll(Pageable pageable);
 }

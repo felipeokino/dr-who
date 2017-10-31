@@ -24,6 +24,7 @@ public class AppointmentBookController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.CREATED)
     public AppointmentBook create(@RequestBody AppointmentBook appointmentBook, HttpServletRequest request, HttpServletResponse response) {
         AppointmentBook createdAppointmentBook;
+        System.out.print(appointmentBook);
         createdAppointmentBook = this.appointmentBookServices.createAppointmentBook(appointmentBook);
         response.setHeader("Location", request.getRequestURL().append("/").append(createdAppointmentBook.getId()).toString());
         return createdAppointmentBook;

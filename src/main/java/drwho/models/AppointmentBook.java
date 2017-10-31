@@ -2,6 +2,7 @@ package drwho.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotNull;
 
 
@@ -36,20 +37,20 @@ public class AppointmentBook {
 
     //Não sei o motivo de quando vc adiciona a hora, ela enntra com 3 hrs a menos, tipo vc da um POST com "19:00" no banco ele guarda "16:00"
     @Temporal(value = TemporalType.TIME)
-
+    @JsonFormat(pattern = "HH:mm")
     private Date startTime;
 
     //Aqui também
     @Temporal(value = TemporalType.TIME)
-
+    @JsonFormat(pattern = "HH:mm")
     private Date endTime;
 
     @Temporal(value = TemporalType.TIME)
-
+    @JsonFormat(pattern = "HH:mm")
     private Date breakStartTime;
 
     @Temporal(value = TemporalType.TIME)
-
+    @JsonFormat(pattern = "HH:mm")
     private Date breakEndTime;
 
     @OneToOne(mappedBy="appointmentBook")
@@ -172,6 +173,7 @@ public class AppointmentBook {
         this.breakEndTime = breakEndTime;
     }
 
+
     public boolean isDeleted() {
         return isDeleted;
     }
@@ -182,19 +184,19 @@ public class AppointmentBook {
 
     @Override
     public String toString() {
-        return "Appointment Books{" +
+        return "AppointmentBook{" +
                 "id=" + id +
-                ", Monday='" + monday + '\'' +
-                ", Tuesday='" + tuesday + '\'' +
-                ", Wednesday='" + wednesday + '\'' +
-                ", Thursday='" + thursday + '\'' +
-                ", Friday='" + friday + '\'' +
-                ", Saturday='" + saturday + '\'' +
-                ", Sunday='" + sunday + '\'' +
-                ", BreakStartTime='" + breakStartTime + '\'' +
-                ", BreakEndTime='" + breakEndTime + '\'' +
-                ", StartTime='" + startTime + '\'' +
-                ", EndTime='" + endTime + '\'' +
+                ", monday='" + monday + '\'' +
+                ", tuesday='" + tuesday + '\'' +
+                ", wednesday='" + wednesday + '\'' +
+                ", thursday='" + thursday + '\'' +
+                ", friday='" + friday + '\'' +
+                ", saturday='" + saturday + '\'' +
+                ", sunday='" + sunday + '\'' +
+                ", breakStartTime='" + breakStartTime + '\'' +
+                ", breakEndTime='" + breakEndTime + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
                 ", isDeleted='" + isDeleted + '\'' +
                 '}';
     }

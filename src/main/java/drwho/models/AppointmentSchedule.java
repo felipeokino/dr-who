@@ -2,6 +2,8 @@ package drwho.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
@@ -23,20 +25,29 @@ public class AppointmentSchedule {
     @Temporal(value = TemporalType.DATE)
     private Date dateSchedule;
 
+    @Temporal(value = TemporalType.TIME)
+    @JsonFormat(pattern = "HH:mm")
+    private Date startTimeScheduled;
+
+    //Aqui também
+    @Temporal(value = TemporalType.TIME)
+    @JsonFormat(pattern = "HH:mm")
+    private Date endTimeScheduled;
+
     @NotNull
     private boolean isDeleted;
 
-    public AppointmentSchedule(Client client, Doctor doctor, Date dateSchedule, boolean isDeleted) {
+    public AppointmentSchedule() {
+    }
+
+    public AppointmentSchedule(Client client, Doctor doctor, Date dateSchedule, Date startTimeScheduled, Date endTimeScheduled, boolean isDeleted) {
         this.client = client;
         this.doctor = doctor;
         this.dateSchedule = dateSchedule;
+        this.startTimeScheduled = startTimeScheduled;
+        this.endTimeScheduled = endTimeScheduled;
         this.isDeleted = isDeleted;
     }
-
-    public AppointmentSchedule(){
-
-    }
-
 
     public long getId() {
         return id;
@@ -69,6 +80,23 @@ public class AppointmentSchedule {
     public void setDateSchedule(Date dateSchedule) {
         this.dateSchedule = dateSchedule;
     }
+
+    public Date getStartTimeScheduled() {
+        return startTimeScheduled;
+    }
+
+    public void setStartTimeScheduled(Date startTimeScheduled) {
+        this.startTimeScheduled = startTimeScheduled;
+    }
+
+    public Date getEndTimeScheduled() {
+        return endTimeScheduled;
+    }
+
+    public void setEndTimeScheduled(Date endTimeScheduled) {
+        this.endTimeScheduled = endTimeScheduled;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }
@@ -84,6 +112,8 @@ public class AppointmentSchedule {
                 ", client" + client + '\'' +
                 ", doctor" + doctor + '\'' +
                 ", dateSchedule='" + dateSchedule + '\'' +
+                ", startTimeScheduled" + startTimeScheduled + '\'' +
+                ", endTimeScheduled='" + endTimeScheduled + '\'' +
                 ", isDeleted='" + isDeleted + '\'' +
                 '}';
     }

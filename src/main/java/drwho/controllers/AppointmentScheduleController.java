@@ -1,5 +1,6 @@
 package drwho.controllers;
 
+import drwho.exception.ForbiddenException;
 import drwho.models.AppointmentSchedule;
 import drwho.services.AppointmentScheduleServices;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import drwho.exception.DataFormatException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+//import java.sql.Time;
 
 @Controller
 public class AppointmentScheduleController extends AbstractRestHandler {
@@ -27,7 +29,13 @@ public class AppointmentScheduleController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.CREATED)
     public AppointmentSchedule create(@RequestBody AppointmentSchedule appointmentSchedule, HttpServletRequest request, HttpServletResponse response) {
         AppointmentSchedule createdAppointmentSchedule;
-        createdAppointmentSchedule = this.appointmentScheduleServices.createAppointmentSchedule(appointmentSchedule);
+        AppointmentSchedule verifyExistentAppointmentSchedule;
+        verifyExistentAppointmentSchedule = appointmentScheduleServices.getByAllParamters(appointmentSchedule.getDoctor().getId(), appointmentSchedule.getDateSchedule(), appointmentSchedule.getStartTimeScheduled());
+        if(verifyExistentAppointmentSchedule == null) {
+            createdAppointmentSchedule = this.appointmentScheduleServices.createAppointmentSchedule(appointmentSchedule);
+        } else {
+            throw new ForbiddenException("Cannot do it dude");
+        }
         response.setHeader("Location", request.getRequestURL().append("/").append(createdAppointmentSchedule.getId()).toString());
         return createdAppointmentSchedule;
     }

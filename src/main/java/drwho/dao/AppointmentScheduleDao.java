@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Date;
+//import java.sql.Time;
 
 /**
  * A DAO for the entity User is simply created by extending the CrudRepository
@@ -38,6 +39,7 @@ public interface AppointmentScheduleDao extends CrudRepository<AppointmentSchedu
     Page findByDoctor_Specialization(String specialization, Pageable pageable);
     Page findByDoctor_SpecializationAndDateSchedule(String specialization, Date date, Pageable pageable);
     Page findByDoctor_SpecializationAndClient_IdAndDateSchedule(String specialization, Long id, Date date, Pageable pageable);
+    AppointmentSchedule findByDoctorIdAndDateScheduleAndStartTimeScheduled(Long doctorId, Date date, Date startTimeScheduled);
 
 
 
